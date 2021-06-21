@@ -1,0 +1,20 @@
+load('CTUdataAll.mat');
+[N,~] = size(CTUdata);  % number of FHR recordings
+L = 21620; % Maximum time length
+
+RawFHR = NaN(L,N);
+RawUA = NaN(L,N);
+IDseq = NaN(N,1);
+ph = NaN(N,1);
+apgar1 = NaN(N,1);
+apgar5 = NaN(N,1);
+for n = 1:N
+    temp = length(CTUdata{n,1}.rawFHR);
+    RawFHR(1:temp,n) = CTUdata{n,1}.rawFHR;
+    RawUA(1:temp,n) = CTUdata{n,1}.rawUA;
+    IDseq(n) = CTUdata{n,1}.ID;
+    ph(n) = CTUdata{n,1}.Param.pH;
+    apgar1(n) = CTUdata{n,1}.Param.Apgar1;
+    apgar5(n) = CTUdata{n,1}.Param.Apgar5;
+end
+clear temp;
