@@ -1,3 +1,5 @@
+% This is for reading the old (wrong) version of SBU data.
+
 clc;
 close all;
 clear all;
