@@ -1,7 +1,8 @@
 # SBU FHR Dataset: 2018 Jan - 2020 Dec
 # This code is for processing SBU FHR RAW DATA
-# Liu Yang and Marzieh Ajirak
-# Jan 14, 2022
+# Liu Yang
+# V1: Jan 14, 2022
+# V2: Feb 17, 2022
 
 import glob
 import pandas as pd
@@ -9,6 +10,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 import datetime
+import seaborn as sns
 
 
 '''
@@ -66,19 +68,40 @@ for i in range(len(FileTable)):
     # open the folder of specific mother ID
     if not os.path.isdir('D:/FHR SBU DATA/FHR_Signals_by_motherID/Parsed_FHR_Signals/'+motherid):
         FileTable.loc[i, 'Missing'] = 1
+        # store data
+        addon = np.empty((1, l * 4))
+        addon[:] = np.NaN
+        FHR.loc[i] = np.append(addon,[])
+        FHR2nd.loc[i] = np.append(addon,[])
+        MHR.loc[i] = np.append(addon,[])
+        UA.loc[i] = np.append(addon,[])
         continue
     else:
         os.chdir('D:/FHR SBU DATA/FHR_Signals_by_motherID/Parsed_FHR_Signals/'+motherid)  # change directory
     filenames = pd.Series([i for i in glob.glob('*')])
     if filenames.empty:
-        FileTable.loc[i, 'Missing'] = 1
+        FileTable.loc[i, 'Missing'] = 2
+        # store data
+        addon = np.empty((1, l * 4))
+        addon[:] = np.NaN
+        FHR.loc[i] = np.append(addon,[])
+        FHR2nd.loc[i] = np.append(addon,[])
+        MHR.loc[i] = np.append(addon,[])
+        UA.loc[i] = np.append(addon,[])
         continue
 
     dateseq1 = str(dateformat.month).zfill(2) + '_' + str(dateformat.day).zfill(2) + '_' + str(dateformat.year)
     dateseq2 = str(dateformat.month).zfill(2) + '_' + str(dateformat.day-1).zfill(2) + '_' + str(dateformat.year)
     subfilenames = filenames[(filenames.str.contains(dateseq1, regex=False)) | (filenames.str.contains(dateseq2, regex=False))]
     if subfilenames.empty:
-        FileTable.loc[i, 'Missing'] = 1
+        FileTable.loc[i, 'Missing'] = 3
+        # store data
+        addon = np.empty((1, l * 4))
+        addon[:] = np.NaN
+        FHR.loc[i] = np.append(addon,[])
+        FHR2nd.loc[i] = np.append(addon,[])
+        MHR.loc[i] = np.append(addon,[])
+        UA.loc[i] = np.append(addon,[])
         continue
 
     lastfilename = subfilenames.iat[-1]  # get the last file recorded
@@ -92,6 +115,65 @@ for i in range(len(FileTable)):
     else:
         FileTable.loc[i, 'ISbirthtime'] = 1
 
+    # If the birthtime does not exist:
+    if FileTable.loc[i, 'ISbirthtime'] == 0:
+        f1 = data[['C1 HR0', 'C1 HR1', 'C1 HR2', 'C1 HR3']]  # for fhr of child no.1
+        f2 = data[['C2 HR0', 'C2 HR1', 'C2 HR2', 'C2 HR3']]  # for fhr of child no.2
+        u = data[['TOCO 0', 'TOCO 1', 'TOCO 2', 'TOCO 3']]  # for UA
+        combine = pd.concat([f1, f2, u], axis=1, join='inner')
+        combine['sum'] = combine.sum(axis=1)
+        pointer = combine.index[-1]  # get the index of the last row
+        while (combine['sum'].loc[pointer] == 0):
+            pointer -= 1
+            if pointer < combine.index[0]:
+                break
+
+        if pointer < combine.index[0]:
+            FileTable.loc[i, 'Missing'] = 4
+            # store data
+            addon = np.empty((1, l * 4))
+            addon[:] = np.NaN
+            FHR.loc[i] = np.append(addon,[])
+            FHR2nd.loc[i] = np.append(addon,[])
+            MHR.loc[i] = np.append(addon,[])
+            UA.loc[i] = np.append(addon,[])
+            continue
+
+        FileTable.loc[i, 'IndexBirthTime'] = pointer  # This is the index of estimated birth time
+        data['Acquired Time'] = pd.to_datetime(data['Acquired Time'], format='%Y-%m-%d::%H:%M:%S.%f')
+        est_year = data['Acquired Time'].dt.year[pointer]
+        est_month = data['Acquired Time'].dt.month[pointer]
+        est_day = data['Acquired Time'].dt.day[pointer]
+        est_hour = data['Acquired Time'].dt.hour[pointer]
+        est_minute = data['Acquired Time'].dt.minute[pointer]
+        est_second = data['Acquired Time'].dt.second[pointer]
+        FileTable.loc[i, 'EstimatedEndTime'] = str(est_month)+'/'+str(est_day)+'/'+str(est_year)+' '+str(est_hour)+':'+str(est_minute)+':'+str(est_second)
+
+        # extract time series data
+        FileTable.loc[i, 'TotalTime(mins)_LastFile'] = int(pointer*4)/4/60   # mins
+        if pointer+1 < l:
+            lasthourdata = data.loc[:pointer]
+        else:
+            lasthourdata = data.loc[pointer-l+1:pointer]
+        f1 = lasthourdata[['C1 HR0', 'C1 HR1', 'C1 HR2', 'C1 HR3']]  # for fhr of child no.1
+        f2 = lasthourdata[['C2 HR0', 'C2 HR1', 'C2 HR2', 'C2 HR3']]  # for fhr of child no.2
+        m = lasthourdata[['MHR 0', 'MHR 1', 'MHR 2', 'MHR 3']]  # for mhr
+        u = lasthourdata[['TOCO 0', 'TOCO 1', 'TOCO 2', 'TOCO 3']]  # for UA
+        f1 = f1.values.reshape(-1)
+        f2 = f2.values.reshape(-1)
+        m = m.values.reshape(-1)
+        u = u.values.reshape(-1)
+        # check the length of signals
+        FileTable.loc[i, 'TimeLength(mins)'] = int(f1.shape[0]) / 4 / 60  # mins
+        # store data
+        addon = np.empty((1, l * 4 - f1.shape[0]))
+        addon[:] = np.NaN
+        FHR.loc[i] = np.append(addon, f1)
+        FHR2nd.loc[i] = np.append(addon, f2)
+        MHR.loc[i] = np.append(addon, m)
+        UA.loc[i] = np.append(addon, u)
+
+
     # If the birthtime exists:
     if FileTable.loc[i, 'ISbirthtime'] == 1:
         data['Acquired Time'] = pd.to_datetime(data['Acquired Time'], format='%Y-%m-%d::%H:%M:%S.%f')
@@ -103,27 +185,102 @@ for i in range(len(FileTable)):
         subdata = data[datayearboo & datamonthboo & datadayboo & datahourboo & dataminuteboo]
         if subdata.empty:   # missing data at birth
             FileTable.loc[i, 'ISbirthtime'] = -1
-            continue
-        '''
-        Because we do not have the info of birth second, we need to estimate it based on the numerical value
-        '''
-        f1 = subdata[['C1 HR0', 'C1 HR1', 'C1 HR2', 'C1 HR3']]  # for fhr of child no.1
-        f2 = subdata[['C2 HR0', 'C2 HR1', 'C2 HR2', 'C2 HR3']]  # for fhr of child no.2
-        u = subdata[['TOCO 0', 'TOCO 1', 'TOCO 2', 'TOCO 3']]  # for UA
-        combine = pd.concat([f1, f2,u], axis=1, join='inner')
-        combine['sum'] = combine.sum(axis=1)
-        pointer = combine.index[0]    # get the index of the first row
-        while (combine['sum'].loc[pointer] != 0):
-            pointer += 1
-            if pointer > combine.index[-1]:
-                break
-        FileTable.loc[i, 'IndexBirthTime'] = pointer - 1 # This is the index of birth time
+            # if so, we estimate the birth time.
+            f1 = data[['C1 HR0', 'C1 HR1', 'C1 HR2', 'C1 HR3']]  # for fhr of child no.1
+            f2 = data[['C2 HR0', 'C2 HR1', 'C2 HR2', 'C2 HR3']]  # for fhr of child no.2
+            u = data[['TOCO 0', 'TOCO 1', 'TOCO 2', 'TOCO 3']]  # for UA
+            combine = pd.concat([f1, f2, u], axis=1, join='inner')
+            combine['sum'] = combine.sum(axis=1)
+            pointer = combine.index[-1]  # get the index of the last row
+            while (combine['sum'].loc[pointer] == 0):
+                pointer -= 1
+                if pointer < combine.index[0]:
+                    break
 
+            if pointer < combine.index[0]:
+                FileTable.loc[i, 'Missing'] = 4
+                # store data
+                addon = np.empty((1, l * 4))
+                addon[:] = np.NaN
+                FHR.loc[i] = np.append(addon,[])
+                FHR2nd.loc[i] = np.append(addon,[])
+                MHR.loc[i] = np.append(addon,[])
+                UA.loc[i] = np.append(addon,[])
+                continue
+
+            FileTable.loc[i, 'IndexBirthTime'] = pointer  # This is the index of estimated birth time
+            data['Acquired Time'] = pd.to_datetime(data['Acquired Time'], format='%Y-%m-%d::%H:%M:%S.%f')
+            est_year = data['Acquired Time'].dt.year[pointer]
+            est_month = data['Acquired Time'].dt.month[pointer]
+            est_day = data['Acquired Time'].dt.day[pointer]
+            est_hour = data['Acquired Time'].dt.hour[pointer]
+            est_minute = data['Acquired Time'].dt.minute[pointer]
+            est_second = data['Acquired Time'].dt.second[pointer]
+            FileTable.loc[i, 'EstimatedEndTime'] = str(est_month) + '/' + str(est_day) + '/' + str(
+                est_year) + ' ' + str(est_hour) + ':' + str(est_minute) + ':' + str(est_second)
+            # extract time series data
+            FileTable.loc[i, 'TotalTime(mins)_LastFile'] = int(pointer * 4) / 4 / 60  # mins
+            if pointer + 1 < l:
+                lasthourdata = data.loc[:pointer]
+            else:
+                lasthourdata = data.loc[pointer - l + 1:pointer]
+            f1 = lasthourdata[['C1 HR0', 'C1 HR1', 'C1 HR2', 'C1 HR3']]  # for fhr of child no.1
+            f2 = lasthourdata[['C2 HR0', 'C2 HR1', 'C2 HR2', 'C2 HR3']]  # for fhr of child no.2
+            m = lasthourdata[['MHR 0', 'MHR 1', 'MHR 2', 'MHR 3']]  # for mhr
+            u = lasthourdata[['TOCO 0', 'TOCO 1', 'TOCO 2', 'TOCO 3']]  # for UA
+            f1 = f1.values.reshape(-1)
+            f2 = f2.values.reshape(-1)
+            m = m.values.reshape(-1)
+            u = u.values.reshape(-1)
+            # check the length of signals
+            FileTable.loc[i, 'TimeLength(mins)'] = int(f1.shape[0]) / 4 / 60  # mins
+            # store data
+            addon = np.empty((1, l * 4 - f1.shape[0]))
+            addon[:] = np.NaN
+            FHR.loc[i] = np.append(addon, f1)
+            FHR2nd.loc[i] = np.append(addon, f2)
+            MHR.loc[i] = np.append(addon, m)
+            UA.loc[i] = np.append(addon, u)
+            continue
+
+        f1 = data[['C1 HR0', 'C1 HR1', 'C1 HR2', 'C1 HR3']]  # for fhr of child no.1
+        f2 = data[['C2 HR0', 'C2 HR1', 'C2 HR2', 'C2 HR3']]  # for fhr of child no.2
+        u = data[['TOCO 0', 'TOCO 1', 'TOCO 2', 'TOCO 3']]  # for UA
+        combine = pd.concat([f1, f2, u], axis=1, join='inner')
+        combine['sum'] = combine.sum(axis=1)
+        pointer = subdata.index[-1]  # get the index of the registered birth time
+        while (combine['sum'].loc[pointer] == 0):
+            pointer -= 1
+            if pointer < combine.index[0]:
+                break
+
+        if pointer < combine.index[0]:
+            FileTable.loc[i, 'Missing'] = 4
+            # store data
+            addon = np.empty((1, l * 4))
+            addon[:] = np.NaN
+            FHR.loc[i] = np.append(addon,[])
+            FHR2nd.loc[i] = np.append(addon,[])
+            MHR.loc[i] = np.append(addon,[])
+            UA.loc[i] = np.append(addon,[])
+            continue
+
+        FileTable.loc[i, 'IndexBirthTime'] = pointer  # This is the index of estimated birth time
+        data['Acquired Time'] = pd.to_datetime(data['Acquired Time'], format='%Y-%m-%d::%H:%M:%S.%f')
+        est_year = data['Acquired Time'].dt.year[pointer]
+        est_month = data['Acquired Time'].dt.month[pointer]
+        est_day = data['Acquired Time'].dt.day[pointer]
+        est_hour = data['Acquired Time'].dt.hour[pointer]
+        est_minute = data['Acquired Time'].dt.minute[pointer]
+        est_second = data['Acquired Time'].dt.second[pointer]
+        FileTable.loc[i, 'EstimatedEndTime'] = str(est_month) + '/' + str(est_day) + '/' + str(
+            est_year) + ' ' + str(est_hour) + ':' + str(est_minute) + ':' + str(est_second)
         # extract time series data
-        if pointer < l:
-            lasthourdata = data.loc[:pointer-1]
+        FileTable.loc[i, 'TotalTime(mins)_LastFile'] = int(pointer * 4) / 4 / 60  # mins
+        if pointer + 1 < l:
+            lasthourdata = data.loc[:pointer]
         else:
-            lasthourdata = data.loc[pointer - l:pointer - 1]
+            lasthourdata = data.loc[pointer - l + 1:pointer]
         f1 = lasthourdata[['C1 HR0', 'C1 HR1', 'C1 HR2', 'C1 HR3']]  # for fhr of child no.1
         f2 = lasthourdata[['C2 HR0', 'C2 HR1', 'C2 HR2', 'C2 HR3']]  # for fhr of child no.2
         m = lasthourdata[['MHR 0', 'MHR 1', 'MHR 2', 'MHR 3']]  # for mhr
@@ -132,18 +289,17 @@ for i in range(len(FileTable)):
         f2 = f2.values.reshape(-1)
         m = m.values.reshape(-1)
         u = u.values.reshape(-1)
-
         # check the length of signals
-        FileTable.loc[i, 'TimeLength(mins)'] = int(f1.shape[0])/4/60   # mins
-
+        FileTable.loc[i, 'TimeLength(mins)'] = int(f1.shape[0]) / 4 / 60  # mins
         # store data
         addon = np.empty((1, l * 4 - f1.shape[0]))
         addon[:] = np.NaN
-        FHR.loc[i] = np.append(addon,f1)
-        FHR2nd.loc[i] = np.append(addon,f2)
-        MHR.loc[i] = np.append(addon,m)
-        UA.loc[i] = np.append(addon,u)
+        FHR.loc[i] = np.append(addon, f1)
+        FHR2nd.loc[i] = np.append(addon, f2)
+        MHR.loc[i] = np.append(addon, m)
+        UA.loc[i] = np.append(addon, u)
 
+# save last-hour data
 os.chdir('D:/FHR SBU DATA/')
 FileTable.to_csv('FileTable.csv')
 FHR.to_csv('FHR.csv')
