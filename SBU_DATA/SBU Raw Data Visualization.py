@@ -180,4 +180,65 @@ FileTable.hist(column='TimeLength(mins)', grid=False ,bins=range(0,65,5))
 plt.show()
 
 
+# 5 Plot Signals:
+
+# Read Information Table
+FileTable = pd.read_csv('D:/FHR SBU DATA/FileTable.csv', index_col=0)
+# Read Last-hour Data
+FHR = pd.read_csv('D:/FHR SBU DATA/FHR.csv',  index_col=False,header=None)
+FHR2 = pd.read_csv('D:/FHR SBU DATA/FHR2nd.csv',  index_col=False,header=None)
+MHR = pd.read_csv('D:/FHR SBU DATA/MHR.csv',  index_col=False,header=None)
+UA = pd.read_csv('D:/FHR SBU DATA/UA.csv',  index_col=False,header=None)
+
+print('Please input the mother ID:')
+input_Mother = input()
+print('Please input the infant ID:')
+input_Baby = input()
+
+temp = FileTable[(FileTable['MOTHER_PERSON_ID'] == int(input_Mother)) & (FileTable['INFANT_PERSON_ID'] == int(input_Baby))]
+if len(temp) == 1:
+    print('Which format you prefer (general or us): ')
+    input_format = input()
+    input_index = temp.index
+    fhr = FHR.loc[input_index].values.tolist()[0]
+    fhr2 = FHR2.loc[input_index].values.tolist()[0]
+    mhr = MHR.loc[input_index].values.tolist()[0]
+    ua = UA.loc[input_index].values.tolist()[0]
+
+    if input_format == 'general':
+        N = len(fhr)
+        t = [i / (4. * 60.) - 60 for i in range(0, N)]
+        T = round(max(list(map(abs, t))))
+        plt.figure(figsize=(T / 4, 3.5))
+        plt.subplots_adjust(wspace=0, hspace=0)
+        ax1 = plt.subplot(2, 1, 1)
+        ax1.plot(t, fhr, color='blue', label='FHR', lw=0.5)
+        ax1.set_title('Mother ID:'+ str(input_Mother) +' '+ 'Baby ID:' + str(input_Baby) )
+        ax1.fill_between(t, 110 * np.ones(N), 160 * np.ones(N), color='gray', alpha=0.2)
+        ax1.set_ylim([30, 240])
+        ax1.set_yticks([30, 60, 90, 120, 150, 180, 210, 240])
+        ax1.yaxis.grid(True, which='minor')
+        plt.grid(axis='y', lw=0.1)
+        plt.grid(False, axis='x')
+        plt.legend()
+        # -----------
+        ax2 = plt.subplot(2, 1, 2, sharex=ax1)
+        ax2.set_ylim([-5, 110])
+        plt.plot(t, ua, lw=0.4, color='blue', label='UA')
+        plt.grid(axis='y', lw=0.5)
+        plt.grid(False, axis='x')
+        plt.subplots_adjust(wspace=0, hspace=0)
+        # plt.tight_layout()
+        plt.legend()
+        plt.show()
+
+        print('Mother ID:'+ str(input_Mother))
+        print('Baby ID:' + str(input_Baby) )
+        print('Labels:')
+        print('NICU:'+ str(FileTable.at[input_index, 'nicu'])+' Delayed transition:'+str(FileTable.at[input_index, 'delayed'])+' Encephalopathy:'+str(FileTable.at[input_index, 'enceph']))
+        print('Hypoxia:'+str(FileTable.at[input_index, 'hypoxia'])+ ' Perinatal depression:'+str(FileTable.at[input_index, 'perdep']))
+        print('Respiratory distress:'+str(FileTable.at[input_index, 'respiratory'])+' Ischemia:'+str(FileTable.at[input_index, 'ischemia']))
+
+else:
+    print('Wrong IDs...')
 
