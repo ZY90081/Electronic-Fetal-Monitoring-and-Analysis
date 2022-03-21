@@ -7,59 +7,88 @@ clear all;
 % foetal heart rate monitoring in labour: automated contraction identification. 
 % Med Biol Eng Comput 47, 1315 (2009).
 
-
-
 %% Reading data
 
-load('CTUdataAll.mat');
-[N,~] = size(CTUdata);  % number of FHR recordings
-L = 21620; % Maximum time length
+% load('CTUdataAll.mat');
+% [N,~] = size(CTUdata);  % number of FHR recordings
+% L = 21620; % Maximum time length
+% 
+% RawFHR = NaN(L,N);
+% RawUA = NaN(L,N);
+% IDseq = NaN(N,1);
+% ph = NaN(N,1);
+% apgar1 = NaN(N,1);
+% apgar5 = NaN(N,1);
+% for n = 1:N
+%     temp = length(CTUdata{n,1}.rawFHR);
+%     RawFHR(1:temp,n) = CTUdata{n,1}.rawFHR;
+%     RawUA(1:temp,n) = CTUdata{n,1}.rawUA;
+%     IDseq(n) = CTUdata{n,1}.ID;
+%     ph(n) = CTUdata{n,1}.Param.pH;
+%     apgar1(n) = CTUdata{n,1}.Param.Apgar1;
+%     apgar5(n) = CTUdata{n,1}.Param.Apgar5;
+% end
+% clear temp;
 
-RawFHR = NaN(L,N);
-RawUA = NaN(L,N);
-IDseq = NaN(N,1);
-ph = NaN(N,1);
-apgar1 = NaN(N,1);
-apgar5 = NaN(N,1);
-for n = 1:N
-    temp = length(CTUdata{n,1}.rawFHR);
-    RawFHR(1:temp,n) = CTUdata{n,1}.rawFHR;
-    RawUA(1:temp,n) = CTUdata{n,1}.rawUA;
-    IDseq(n) = CTUdata{n,1}.ID;
-    ph(n) = CTUdata{n,1}.Param.pH;
-    apgar1(n) = CTUdata{n,1}.Param.Apgar1;
-    apgar5(n) = CTUdata{n,1}.Param.Apgar5;
-end
-clear temp;
+RawUA = readmatrix('UA.csv');
+N = size(RawUA,1);
+
+
+
 
 %% Parameters
 
-Window = 10;   % 16 mins
-SamplingInterval = 3.75;  % seconds
+Window = 16;   % 16 mins
+SamplingInterval = 4;  % seconds
 Order = 9;
 LowTH = 0.0033;  % Hz (1 contraction per 5 mins)
 HighTH = 0.0167;  % Hz (1 contraction per 1 min)
 LowTH = 2*pi*LowTH*SamplingInterval;
 HighTH = 2*pi*HighTH*SamplingInterval;
 
-Cpoor = 0.72;
-Cgood = 0.9;
+Cpoor = 0.74;
+Cgood = 0.91;
 
 StrengthLevel = 5;  % for removing missing data
 DurationTH = 8;     % mins
 
 
-%%
+%% plotting signals
 
 % % pick a UA recording
-% IDidx = 157;
+% IDidx = 269;
 % SIGua = RawUA(:,IDidx);
 % SIGua = SIGua(~isnan(SIGua));
+% SIGfhr = RawFHR(:,IDidx);
+% SIGfhr = SIGfhr(~isnan(SIGfhr));
 % Lua = length(SIGua); 
+% t = (1-Lua:0)./4./60;
 % 
 % figure(2)
-% plot(SIGua)
+% subplot(2,1,1)
+% plot(t,SIGfhr)
+% ylabel('FHR (bpm)');
+% grid on
+% subplot(2,1,2)
+% plot(t,SIGua)
+% ylabel('TOCO UA (mmHg)');
+% xlabel('Time (mins)');
+% grid on
 
+
+%% plotting in US format
+
+% IDidx = 459;
+% SIGua = RawUA(:,IDidx);
+% SIGua = SIGua(~isnan(SIGua));
+% SIGfhr = RawFHR(:,IDidx);
+% SIGfhr = SIGfhr(~isnan(SIGfhr));
+% plotinUSAformat_nocont(IDidx,SIGfhr,SIGua);
+
+
+
+
+%%
 RedQuaInd = zeros(N,1);
 
 for IDidx = 1:N
@@ -119,23 +148,46 @@ for n = 1:segN
     end
     
     % Plotting -----------
-%     fig1 = figure();
-%     subplot(2,1,1)
-%     plot(Segua);
-%     subplot(2,1,2)
-%     polarplot(LowTH*ones(1,101),0:0.01:1,'k','LineWidth',1); hold on;
-%     polarplot(HighTH*ones(1,101),0:0.01:1,'k','LineWidth',1);   
-%     polarplot(0:0.1:2*pi,Cpoor*ones(1,length(0:0.1:2*pi)),'b','LineWidth',1);
-%     polarplot(0:0.1:2*pi,Cgood*ones(1,length(0:0.1:2*pi)),'r','LineWidth',1);
-%     polarplot(pole,'o','color',[0.6 0 0]);
-%     thetalim([0,180]);
-%     
-%     close Figure 1
+    fig1 = figure();
+    subplot(2,1,1)
+    plot(Segua);
+    xlabel('Samples');
+    ylabel('UA Segment (mmHg)');
+    grid on;
+    subplot(2,1,2)
+    polarplot(LowTH*ones(1,101),0:0.01:1,'k','LineWidth',1); hold on;
+    polarplot(HighTH*ones(1,101),0:0.01:1,'k','LineWidth',1);  
+    polarplot(0:0.1:2*pi,Cpoor*ones(1,length(0:0.1:2*pi)),'b','LineWidth',1);
+    polarplot(0:0.1:2*pi,Cgood*ones(1,length(0:0.1:2*pi)),'r','LineWidth',1);
+    polarplot(pole,'o','color',[0.6 0 0]);
+    thetalim([0,180]);  
+    
+    close Figure 1
 end
 
 RedQuaInd(IDidx) = sum(QualityInd)/segN*100;
 
 end
 
-save CzechCTU_UA_QA RedQuaInd 
+% counts by quality
+Good = length(find(RedQuaInd>=75));
+AboveAverage = length(find((RedQuaInd<75)&(RedQuaInd>50)));
+Average = length(find(RedQuaInd==50));
+BelowAverage = length(find((RedQuaInd<50)&(RedQuaInd>25)));
+Poor = length(find(RedQuaInd<=25));
+NN = sum(isnan(RedQuaInd));
 
+figure()
+X = categorical({'Missing','Poor','Below Average','Average', 'Above Average','Good'});
+X = reordercats(X,{'Missing','Poor','Below Average','Average', 'Above Average','Good'});
+b = bar(X,[NN,Poor,BelowAverage,Average,AboveAverage,Good]);
+xtips = b.XEndPoints;
+ytips = b.YEndPoints;
+labels = string(b.YData);
+text(xtips,ytips,labels,'HorizontalAlignment','center',...
+    'VerticalAlignment','bottom')
+ylabel('Amount');
+
+
+
+save SBU_UA_QA RedQuaInd 
