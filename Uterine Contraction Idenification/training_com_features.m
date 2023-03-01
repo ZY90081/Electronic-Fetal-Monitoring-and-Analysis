@@ -32,10 +32,28 @@ parfor i = 1:M
     [theta_est,f_theta,~] = optisolver(Contractions{i},np,theta0,NoiseModelParas);
     THETA(i,:) = theta_est;
     % extract features from different methods
-    [FEATURES_basic(i,:),FEATURES_AG(i,:)] = Fun_extractfeatures(theta_est,f_theta);
-    FEATURES_GLRT(i) = sum(log(pdf_agamma(Contractions{i}-f_theta,location,shape,scale,skew)./pdf_agamma(Contractions{i},location,shape,scale,skew)));
-    gprMdl = fitrgp((1:length(Contractions{i}))',(Contractions{i})','KernelFunction',kfcn,'KernelParameters',hypertheta0,'FitMethod','exact','Sigma',1e-2, 'OptimizeHyperparameters','auto','HyperparameterOptimizationOptions',struct('Verbose',0,'ShowPlots',false,'MaxObjectiveEvaluations',30,'MaxTime',inf));
-    FEATURES_GP(i,:) = gprMdl.KernelInformation.KernelParameters;
+    switch Method
+        case 'Basic'
+            %disp('Basic')
+            [FEATURES_basic(i,:),FEATURES_AG(i,:)] = Fun_extractfeatures(theta_est,f_theta);
+        case 'GLRT'
+            %disp('GLRT')
+            FEATURES_GLRT(i) = sum(log(pdf_agamma(Contractions{i}-f_theta,location,shape,scale,skew)./pdf_agamma(Contractions{i},location,shape,scale,skew)));
+        case 'Basic+AG'
+            %disp('Basic and Asymmetric Gaussian Model')
+            [FEATURES_basic(i,:),FEATURES_AG(i,:)] = Fun_extractfeatures(theta_est,f_theta);
+        case 'Basic+AG+GP'
+            %disp('Basic, Asymmetric Gaussian Model and GP')
+            [FEATURES_basic(i,:),FEATURES_AG(i,:)] = Fun_extractfeatures(theta_est,f_theta);
+            gprMdl = fitrgp((1:length(Contractions{i}))',(Contractions{i})','KernelFunction',kfcn,'KernelParameters',hypertheta0,'FitMethod','exact','Sigma',1e-2, 'OptimizeHyperparameters','auto','HyperparameterOptimizationOptions',struct('Verbose',0,'ShowPlots',false,'MaxObjectiveEvaluations',30,'MaxTime',inf));
+            FEATURES_GP(i,:) = gprMdl.KernelInformation.KernelParameters;
+        case 'All'
+            %disp('All')
+            [FEATURES_basic(i,:),FEATURES_AG(i,:)] = Fun_extractfeatures(theta_est,f_theta);
+            FEATURES_GLRT(i) = sum(log(pdf_agamma(Contractions{i}-f_theta,location,shape,scale,skew)./pdf_agamma(Contractions{i},location,shape,scale,skew)));
+            gprMdl = fitrgp((1:length(Contractions{i}))',(Contractions{i})','KernelFunction',kfcn,'KernelParameters',hypertheta0,'FitMethod','exact','Sigma',1e-2, 'OptimizeHyperparameters','auto','HyperparameterOptimizationOptions',struct('Verbose',0,'ShowPlots',false,'MaxObjectiveEvaluations',30,'MaxTime',inf));
+            FEATURES_GP(i,:) = gprMdl.KernelInformation.KernelParameters;
+    end
 end
 AGaussian = mean(THETA);
 
@@ -50,11 +68,30 @@ parfor i = 1:N
     [~,np] = max(NonContractions{i});
     [theta_est,f_theta] = optisolver(NonContractions{i},np,theta0,NoiseModelParas);
     % extract features from different methods
-    [FEATURES_basic_N(i,:),FEATURES_AG_N(i,:)] = Fun_extractfeatures(theta_est,f_theta);
-    FEATURES_GLRT_N(i) = sum(log(pdf_agamma(NonContractions{i}-f_theta,location,shape,scale,skew)./pdf_agamma(NonContractions{i},location,shape,scale,skew)));
-    gprMdl = fitrgp((1:length(NonContractions{i}))',(NonContractions{i})','KernelFunction',kfcn,'KernelParameters',hypertheta0,'FitMethod','exact','Sigma',1e-2, 'OptimizeHyperparameters','auto','HyperparameterOptimizationOptions',struct('Verbose',0,'ShowPlots',false,'MaxObjectiveEvaluations',30,'MaxTime',inf));
-    FEATURES_GP_N(i,:) = gprMdl.KernelInformation.KernelParameters;    
+    switch Method
+        case 'Basic'
+            %disp('Basic')
+            [FEATURES_basic_N(i,:),FEATURES_AG_N(i,:)] = Fun_extractfeatures(theta_est,f_theta);
+        case 'GLRT'
+            %disp('GLRT')
+            FEATURES_GLRT_N(i) = sum(log(pdf_agamma(NonContractions{i}-f_theta,location,shape,scale,skew)./pdf_agamma(NonContractions{i},location,shape,scale,skew)));
+        case 'Basic+AG'
+            %disp('Basic and Asymmetric Gaussian Model')
+            [FEATURES_basic_N(i,:),FEATURES_AG_N(i,:)] = Fun_extractfeatures(theta_est,f_theta);
+        case 'Basic+AG+GP'
+            %disp('Basic, Asymmetric Gaussian Model and GP')
+            [FEATURES_basic_N(i,:),FEATURES_AG_N(i,:)] = Fun_extractfeatures(theta_est,f_theta);
+            gprMdl = fitrgp((1:length(NonContractions{i}))',(NonContractions{i})','KernelFunction',kfcn,'KernelParameters',hypertheta0,'FitMethod','exact','Sigma',1e-2, 'OptimizeHyperparameters','auto','HyperparameterOptimizationOptions',struct('Verbose',0,'ShowPlots',false,'MaxObjectiveEvaluations',30,'MaxTime',inf));
+            FEATURES_GP_N(i,:) = gprMdl.KernelInformation.KernelParameters;
+        case 'All'
+            %disp('All')
+            [FEATURES_basic_N(i,:),FEATURES_AG_N(i,:)] = Fun_extractfeatures(theta_est,f_theta);
+            FEATURES_GLRT_N(i) = sum(log(pdf_agamma(NonContractions{i}-f_theta,location,shape,scale,skew)./pdf_agamma(NonContractions{i},location,shape,scale,skew)));
+            gprMdl = fitrgp((1:length(NonContractions{i}))',(NonContractions{i})','KernelFunction',kfcn,'KernelParameters',hypertheta0,'FitMethod','exact','Sigma',1e-2, 'OptimizeHyperparameters','auto','HyperparameterOptimizationOptions',struct('Verbose',0,'ShowPlots',false,'MaxObjectiveEvaluations',30,'MaxTime',inf));
+            FEATURES_GP_N(i,:) = gprMdl.KernelInformation.KernelParameters;
+    end  
 end
+
 
 % Classifier
 TrainingLabels = [ones(1,M),-ones(1,N)];
@@ -81,6 +118,5 @@ SVMModel = fitcsvm(TrainingInputs',TrainingLabels','Standardize',true,'KernelFun
 CompactSVMModel = compact(SVMModel);
 SVMClassifier = fitPosterior(CompactSVMModel,TrainingInputs',TrainingLabels');
 % [labels,PostProbs] = predict(CompactSVMModel,0:10:2000');
-
 
 end
