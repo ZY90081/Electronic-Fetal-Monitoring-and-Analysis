@@ -290,3 +290,161 @@ text(xtips4,ytips4,labels4,'HorizontalAlignment','center',...
     'VerticalAlignment','bottom')
 legend('Score 1','Score 2','Score 3','Score 4');
 ylabel('Amount');
+
+
+%% Plotting edge detection accuracy 
+
+[Czech_Thr_poorIOU,Czech_Thr_belowIOU,Czech_Thr_averageIOU,Czech_Thr_aboveIOU,Czech_Thr_goodIOU] = IOUsEdge(Czech_Thr,CzechID,Czechlabel,CzechUA,GroundTruth_Czech_G4);
+[Czech_Oxsys_poorIOU,Czech_Oxsys_belowIOU,Czech_Oxsys_averageIOU,Czech_Oxsys_aboveIOU,Czech_Oxsys_goodIOU] = IOUsEdge(Czech_Oxsys,CzechID,Czechlabel,CzechUA,GroundTruth_Czech_G4);
+[Czech_Energy_poorIOU,Czech_Energy_belowIOU,Czech_Energy_averageIOU,Czech_Energy_aboveIOU,Czech_Energy_goodIOU] = IOUsEdge(Czech_Energy,CzechID,Czechlabel,CzechUA,GroundTruth_Czech_G4);
+[Czech_DiffOp_poorIOU,Czech_DiffOp_belowIOU,Czech_DiffOp_averageIOU,Czech_DiffOp_aboveIOU,Czech_DiffOp_goodIOU] = IOUsEdge(Czech_DiffOp,CzechID,Czechlabel,CzechUA,GroundTruth_Czech_G4);
+[Czech_DiffOpEng_poorIOU,Czech_DiffOpEng_belowIOU,Czech_DiffOpEng_averageIOU,Czech_DiffOpEng_aboveIOU,Czech_DiffOpEng_goodIOU] = IOUsEdge(Czech_DiffOpEng,CzechID,Czechlabel,CzechUA,GroundTruth_Czech_G4);
+[Czech_Template_poorIOU,Czech_Template_belowIOU,Czech_Template_averageIOU,Czech_Template_aboveIOU,Czech_Template_goodIOU] = IOUsEdge(Czech_Template,CzechID,Czechlabel,CzechUA,GroundTruth_Czech_G4);
+
+figure(); hold on;
+markersize = 5;
+boxchart(ones(1,length(Czech_Thr_poorIOU)),Czech_Thr_poorIOU,'BoxFaceColor',[0.6350 0.0780 0.1840],'MarkerStyle','none');
+boxchart(2*ones(1,length(Czech_Template_poorIOU)),Czech_Template_poorIOU,'BoxFaceColor',[0.4660 0.6740 0.1880],'MarkerStyle','none');
+boxchart(3*ones(1,length(Czech_Oxsys_poorIOU)),Czech_Oxsys_poorIOU,'BoxFaceColor',[0.4940 0.1840 0.5560],'MarkerStyle','none');
+boxchart(4*ones(1,length(Czech_Energy_poorIOU)),Czech_Energy_poorIOU,'BoxFaceColor',[0.9290 0.6940 0.1250],'MarkerStyle','none');
+boxchart(5*ones(1,length(Czech_DiffOp_poorIOU)),Czech_DiffOp_poorIOU,'BoxFaceColor',[0.8500 0.3250 0.0980],'MarkerStyle','none');
+boxchart(6*ones(1,length(Czech_DiffOpEng_poorIOU)),Czech_DiffOpEng_poorIOU,'BoxFaceColor',[0 0.4470 0.7410],'MarkerStyle','none');
+scatter(ones(size(Czech_Thr_poorIOU)).*(1+(rand(size(Czech_Thr_poorIOU))-0.5)/10),Czech_Thr_poorIOU,markersize,'filled','MarkerFaceColor',[0.6350 0.0780 0.1840]);
+scatter(ones(size(Czech_Template_poorIOU)).*(2+(rand(size(Czech_Template_poorIOU))-0.5)/10),Czech_Template_poorIOU,markersize,'filled','MarkerFaceColor',[0.4660 0.6740 0.1880]);
+scatter(ones(size(Czech_Oxsys_poorIOU)).*(3+(rand(size(Czech_Oxsys_poorIOU))-0.5)/10),Czech_Oxsys_poorIOU,markersize,'filled','MarkerFaceColor',[0.4940 0.1840 0.5560]);
+scatter(ones(size(Czech_Energy_poorIOU)).*(4+(rand(size(Czech_Energy_poorIOU))-0.5)/10),Czech_Energy_poorIOU,markersize,'filled','MarkerFaceColor',[0.9290 0.6940 0.1250]);
+scatter(ones(size(Czech_DiffOp_poorIOU)).*(5+(rand(size(Czech_DiffOp_poorIOU))-0.5)/10),Czech_DiffOp_poorIOU,markersize,'filled','MarkerFaceColor',[0.8500 0.3250 0.0980]);
+scatter(ones(size(Czech_DiffOpEng_poorIOU)).*(6+(rand(size(Czech_DiffOpEng_poorIOU))-0.5)/10),Czech_DiffOpEng_poorIOU,markersize,'filled','MarkerFaceColor',[0 0.4470 0.7410]);
+
+
+scatter(ones(size(Czech_Thr_belowIOU)).*(8+(rand(size(Czech_Thr_belowIOU))-0.5)/10),Czech_Thr_belowIOU,markersize,'filled','MarkerFaceColor',[0.6350 0.0780 0.1840]);
+boxchart(8*ones(1,length(Czech_Thr_belowIOU)),Czech_Thr_belowIOU,'BoxFaceColor',[0.6350 0.0780 0.1840],'MarkerStyle','none');
+scatter(ones(size(Czech_Template_belowIOU)).*(9+(rand(size(Czech_Template_belowIOU))-0.5)/10),Czech_Template_belowIOU,markersize,'filled','MarkerFaceColor',[0.4660 0.6740 0.1880]);
+boxchart(9*ones(1,length(Czech_Template_belowIOU)),Czech_Template_belowIOU,'BoxFaceColor',[0.4660 0.6740 0.1880],'MarkerStyle','none');
+scatter(ones(size(Czech_Oxsys_belowIOU)).*(10+(rand(size(Czech_Oxsys_belowIOU))-0.5)/10),Czech_Oxsys_belowIOU,markersize,'filled','MarkerFaceColor',[0.4940 0.1840 0.5560]);
+boxchart(10*ones(1,length(Czech_Oxsys_belowIOU)),Czech_Oxsys_belowIOU,'BoxFaceColor',[0.4940 0.1840 0.5560],'MarkerStyle','none');
+scatter(ones(size(Czech_Energy_belowIOU)).*(11+(rand(size(Czech_Energy_belowIOU))-0.5)/10),Czech_Energy_belowIOU,markersize,'filled','MarkerFaceColor',[0.9290 0.6940 0.1250]);
+boxchart(11*ones(1,length(Czech_Energy_belowIOU)),Czech_Energy_belowIOU,'BoxFaceColor',[0.9290 0.6940 0.1250],'MarkerStyle','none');
+scatter(ones(size(Czech_DiffOp_belowIOU)).*(12+(rand(size(Czech_DiffOp_belowIOU))-0.5)/10),Czech_DiffOp_belowIOU,markersize,'filled','MarkerFaceColor',[0.8500 0.3250 0.0980]);
+boxchart(12*ones(1,length(Czech_DiffOp_belowIOU)),Czech_DiffOp_belowIOU,'BoxFaceColor',[0.8500 0.3250 0.0980],'MarkerStyle','none');
+scatter(ones(size(Czech_DiffOpEng_belowIOU)).*(13+(rand(size(Czech_DiffOpEng_belowIOU))-0.5)/10),Czech_DiffOpEng_belowIOU,markersize,'filled','MarkerFaceColor',[0 0.4470 0.7410]);
+boxchart(13*ones(1,length(Czech_DiffOpEng_belowIOU)),Czech_DiffOpEng_belowIOU,'BoxFaceColor',[0 0.4470 0.7410],'MarkerStyle','none');
+
+scatter(ones(size(Czech_Thr_averageIOU)).*(15+(rand(size(Czech_Thr_averageIOU))-0.5)/10),Czech_Thr_averageIOU,markersize,'filled','MarkerFaceColor',[0.6350 0.0780 0.1840]);
+boxchart(15*ones(1,length(Czech_Thr_averageIOU)),Czech_Thr_averageIOU,'BoxFaceColor',[0.6350 0.0780 0.1840],'MarkerStyle','none');
+scatter(ones(size(Czech_Template_averageIOU)).*(16+(rand(size(Czech_Template_averageIOU))-0.5)/10),Czech_Template_averageIOU,markersize,'filled','MarkerFaceColor',[0.4660 0.6740 0.1880]);
+boxchart(16*ones(1,length(Czech_Template_averageIOU)),Czech_Template_averageIOU,'BoxFaceColor',[0.4660 0.6740 0.1880],'MarkerStyle','none');
+scatter(ones(size(Czech_Oxsys_averageIOU)).*(17+(rand(size(Czech_Oxsys_averageIOU))-0.5)/10),Czech_Oxsys_averageIOU,markersize,'filled','MarkerFaceColor',[0.4940 0.1840 0.5560]);
+boxchart(17*ones(1,length(Czech_Oxsys_averageIOU)),Czech_Oxsys_averageIOU,'BoxFaceColor',[0.4940 0.1840 0.5560],'MarkerStyle','none');
+scatter(ones(size(Czech_Energy_averageIOU)).*(18+(rand(size(Czech_Energy_averageIOU))-0.5)/10),Czech_Energy_averageIOU,markersize,'filled','MarkerFaceColor',[0.9290 0.6940 0.1250]);
+boxchart(18*ones(1,length(Czech_Energy_averageIOU)),Czech_Energy_averageIOU,'BoxFaceColor',[0.9290 0.6940 0.1250],'MarkerStyle','none');
+scatter(ones(size(Czech_DiffOp_averageIOU)).*(19+(rand(size(Czech_DiffOp_averageIOU))-0.5)/10),Czech_DiffOp_averageIOU,markersize,'filled','MarkerFaceColor',[0.8500 0.3250 0.0980]);
+boxchart(19*ones(1,length(Czech_DiffOp_averageIOU)),Czech_DiffOp_averageIOU,'BoxFaceColor',[0.8500 0.3250 0.0980],'MarkerStyle','none');
+scatter(ones(size(Czech_DiffOpEng_averageIOU)).*(20+(rand(size(Czech_DiffOpEng_averageIOU))-0.5)/10),Czech_DiffOpEng_averageIOU,markersize,'filled','MarkerFaceColor',[0 0.4470 0.7410]);
+boxchart(20*ones(1,length(Czech_DiffOpEng_averageIOU)),Czech_DiffOpEng_averageIOU,'BoxFaceColor',[0 0.4470 0.7410],'MarkerStyle','none');
+
+
+scatter(ones(size(Czech_Thr_aboveIOU)).*(22+(rand(size(Czech_Thr_aboveIOU))-0.5)/10),Czech_Thr_aboveIOU,markersize,'filled','MarkerFaceColor',[0.6350 0.0780 0.1840]);
+boxchart(22*ones(1,length(Czech_Thr_aboveIOU)),Czech_Thr_aboveIOU,'BoxFaceColor',[0.6350 0.0780 0.1840],'MarkerStyle','none');
+scatter(ones(size(Czech_Template_aboveIOU)).*(23+(rand(size(Czech_Template_aboveIOU))-0.5)/10),Czech_Template_aboveIOU,markersize,'filled','MarkerFaceColor',[0.4660 0.6740 0.1880]);
+boxchart(23*ones(1,length(Czech_Template_aboveIOU)),Czech_Template_aboveIOU,'BoxFaceColor',[0.4660 0.6740 0.1880],'MarkerStyle','none');
+scatter(ones(size(Czech_Oxsys_aboveIOU)).*(24+(rand(size(Czech_Oxsys_aboveIOU))-0.5)/10),Czech_Oxsys_aboveIOU,markersize,'filled','MarkerFaceColor',[0.4940 0.1840 0.5560]);
+boxchart(24*ones(1,length(Czech_Oxsys_aboveIOU)),Czech_Oxsys_aboveIOU,'BoxFaceColor',[0.4940 0.1840 0.5560],'MarkerStyle','none');
+scatter(ones(size(Czech_Energy_aboveIOU)).*(25+(rand(size(Czech_Energy_aboveIOU))-0.5)/10),Czech_Energy_aboveIOU,markersize,'filled','MarkerFaceColor',[0.9290 0.6940 0.1250]);
+boxchart(25*ones(1,length(Czech_Energy_aboveIOU)),Czech_Energy_aboveIOU,'BoxFaceColor',[0.9290 0.6940 0.1250],'MarkerStyle','none');
+scatter(ones(size(Czech_DiffOp_aboveIOU)).*(26+(rand(size(Czech_DiffOp_aboveIOU))-0.5)/10),Czech_DiffOp_aboveIOU,markersize,'filled','MarkerFaceColor',[0.8500 0.3250 0.0980]);
+boxchart(26*ones(1,length(Czech_DiffOp_aboveIOU)),Czech_DiffOp_aboveIOU,'BoxFaceColor',[0.8500 0.3250 0.0980],'MarkerStyle','none');
+scatter(ones(size(Czech_DiffOpEng_aboveIOU)).*(27+(rand(size(Czech_DiffOpEng_aboveIOU))-0.5)/10),Czech_DiffOpEng_aboveIOU,markersize,'filled','MarkerFaceColor',[0 0.4470 0.7410]);
+boxchart(27*ones(1,length(Czech_DiffOpEng_aboveIOU)),Czech_DiffOpEng_aboveIOU,'BoxFaceColor',[0 0.4470 0.7410],'MarkerStyle','none');
+
+scatter(ones(size(Czech_Thr_goodIOU)).*(29+(rand(size(Czech_Thr_goodIOU))-0.5)/10),Czech_Thr_goodIOU,markersize,'filled','MarkerFaceColor',[0.6350 0.0780 0.1840]);
+boxchart(29*ones(1,length(Czech_Thr_goodIOU)),Czech_Thr_goodIOU,'BoxFaceColor',[0.6350 0.0780 0.1840],'MarkerStyle','none');
+scatter(ones(size(Czech_Template_goodIOU)).*(30+(rand(size(Czech_Template_goodIOU))-0.5)/10),Czech_Template_goodIOU,markersize,'filled','MarkerFaceColor',[0.4660 0.6740 0.1880]);
+boxchart(30*ones(1,length(Czech_Template_goodIOU)),Czech_Template_goodIOU,'BoxFaceColor',[0.4660 0.6740 0.1880],'MarkerStyle','none');
+scatter(ones(size(Czech_Oxsys_goodIOU)).*(31+(rand(size(Czech_Oxsys_goodIOU))-0.5)/10),Czech_Oxsys_goodIOU,markersize,'filled','MarkerFaceColor',[0.4940 0.1840 0.5560]);
+boxchart(31*ones(1,length(Czech_Oxsys_goodIOU)),Czech_Oxsys_goodIOU,'BoxFaceColor',[0.4940 0.1840 0.5560],'MarkerStyle','none');
+scatter(ones(size(Czech_Energy_goodIOU)).*(32+(rand(size(Czech_Energy_goodIOU))-0.5)/10),Czech_Energy_goodIOU,markersize,'filled','MarkerFaceColor',[0.9290 0.6940 0.1250]);
+boxchart(32*ones(1,length(Czech_Energy_goodIOU)),Czech_Energy_goodIOU,'BoxFaceColor',[0.9290 0.6940 0.1250],'MarkerStyle','none');
+scatter(ones(size(Czech_DiffOp_goodIOU)).*(33+(rand(size(Czech_DiffOp_goodIOU))-0.5)/10),Czech_DiffOp_goodIOU,markersize,'filled','MarkerFaceColor',[0.8500 0.3250 0.0980]);
+boxchart(33*ones(1,length(Czech_DiffOp_goodIOU)),Czech_DiffOp_goodIOU,'BoxFaceColor',[0.8500 0.3250 0.0980],'MarkerStyle','none');
+scatter(ones(size(Czech_DiffOpEng_goodIOU)).*(34+(rand(size(Czech_DiffOpEng_goodIOU))-0.5)/10),Czech_DiffOpEng_goodIOU,markersize,'filled','MarkerFaceColor',[0 0.4470 0.7410]);
+boxchart(34*ones(1,length(Czech_DiffOpEng_goodIOU)),Czech_DiffOpEng_goodIOU,'BoxFaceColor',[0 0.4470 0.7410],'MarkerStyle','none');
+
+
+
+[SBU_Thr_poorIOU,SBU_Thr_belowIOU,SBU_Thr_averageIOU,SBU_Thr_aboveIOU,SBU_Thr_goodIOU] = IOUsEdge(SBU_Thr,SBUID,SBUlabel,SBUUA,GroundTruth_SBU_G4);
+[SBU_Oxsys_poorIOU,SBU_Oxsys_belowIOU,SBU_Oxsys_averageIOU,SBU_Oxsys_aboveIOU,SBU_Oxsys_goodIOU] = IOUsEdge(SBU_Oxsys,SBUID,SBUlabel,SBUUA,GroundTruth_SBU_G4);
+[SBU_Energy_poorIOU,SBU_Energy_belowIOU,SBU_Energy_averageIOU,SBU_Energy_aboveIOU,SBU_Energy_goodIOU] = IOUsEdge(SBU_Energy,SBUID,SBUlabel,SBUUA,GroundTruth_SBU_G4);
+[SBU_DiffOp_poorIOU,SBU_DiffOp_belowIOU,SBU_DiffOp_averageIOU,SBU_DiffOp_aboveIOU,SBU_DiffOp_goodIOU] = IOUsEdge(SBU_DiffOp,SBUID,SBUlabel,SBUUA,GroundTruth_SBU_G4);
+[SBU_DiffOpEng_poorIOU,SBU_DiffOpEng_belowIOU,SBU_DiffOpEng_averageIOU,SBU_DiffOpEng_aboveIOU,SBU_DiffOpEng_goodIOU] = IOUsEdge(SBU_DiffOpEng,SBUID,SBUlabel,SBUUA,GroundTruth_SBU_G4);
+[SBU_Template_poorIOU,SBU_Template_belowIOU,SBU_Template_averageIOU,SBU_Template_aboveIOU,SBU_Template_goodIOU] = IOUsEdge(SBU_Template,SBUID,SBUlabel,SBUUA,GroundTruth_SBU_G4);
+
+figure(); hold on;
+markersize = 5;
+boxchart(ones(1,length(SBU_Thr_poorIOU)),SBU_Thr_poorIOU,'BoxFaceColor',[0.6350 0.0780 0.1840],'MarkerStyle','none');
+boxchart(2*ones(1,length(SBU_Template_poorIOU)),SBU_Template_poorIOU,'BoxFaceColor',[0.4660 0.6740 0.1880],'MarkerStyle','none');
+boxchart(3*ones(1,length(SBU_Oxsys_poorIOU)),SBU_Oxsys_poorIOU,'BoxFaceColor',[0.4940 0.1840 0.5560],'MarkerStyle','none');
+boxchart(4*ones(1,length(SBU_Energy_poorIOU)),SBU_Energy_poorIOU,'BoxFaceColor',[0.9290 0.6940 0.1250],'MarkerStyle','none');
+boxchart(5*ones(1,length(SBU_DiffOp_poorIOU)),SBU_DiffOp_poorIOU,'BoxFaceColor',[0.8500 0.3250 0.0980],'MarkerStyle','none');
+boxchart(6*ones(1,length(SBU_DiffOpEng_poorIOU)),SBU_DiffOpEng_poorIOU,'BoxFaceColor',[0 0.4470 0.7410],'MarkerStyle','none');
+scatter(ones(size(SBU_Thr_poorIOU)).*(1+(rand(size(SBU_Thr_poorIOU))-0.5)/10),SBU_Thr_poorIOU,markersize,'filled','MarkerFaceColor',[0.6350 0.0780 0.1840]);
+scatter(ones(size(SBU_Template_poorIOU)).*(2+(rand(size(SBU_Template_poorIOU))-0.5)/10),SBU_Template_poorIOU,markersize,'filled','MarkerFaceColor',[0.4660 0.6740 0.1880]);
+scatter(ones(size(SBU_Oxsys_poorIOU)).*(3+(rand(size(SBU_Oxsys_poorIOU))-0.5)/10),SBU_Oxsys_poorIOU,markersize,'filled','MarkerFaceColor',[0.4940 0.1840 0.5560]);
+scatter(ones(size(SBU_Energy_poorIOU)).*(4+(rand(size(SBU_Energy_poorIOU))-0.5)/10),SBU_Energy_poorIOU,markersize,'filled','MarkerFaceColor',[0.9290 0.6940 0.1250]);
+scatter(ones(size(SBU_DiffOp_poorIOU)).*(5+(rand(size(SBU_DiffOp_poorIOU))-0.5)/10),SBU_DiffOp_poorIOU,markersize,'filled','MarkerFaceColor',[0.8500 0.3250 0.0980]);
+scatter(ones(size(SBU_DiffOpEng_poorIOU)).*(6+(rand(size(SBU_DiffOpEng_poorIOU))-0.5)/10),SBU_DiffOpEng_poorIOU,markersize,'filled','MarkerFaceColor',[0 0.4470 0.7410]);
+
+
+scatter(ones(size(SBU_Thr_belowIOU)).*(8+(rand(size(SBU_Thr_belowIOU))-0.5)/10),SBU_Thr_belowIOU,markersize,'filled','MarkerFaceColor',[0.6350 0.0780 0.1840]);
+boxchart(8*ones(1,length(SBU_Thr_belowIOU)),SBU_Thr_belowIOU,'BoxFaceColor',[0.6350 0.0780 0.1840],'MarkerStyle','none');
+scatter(ones(size(SBU_Template_belowIOU)).*(9+(rand(size(SBU_Template_belowIOU))-0.5)/10),SBU_Template_belowIOU,markersize,'filled','MarkerFaceColor',[0.4660 0.6740 0.1880]);
+boxchart(9*ones(1,length(SBU_Template_belowIOU)),SBU_Template_belowIOU,'BoxFaceColor',[0.4660 0.6740 0.1880],'MarkerStyle','none');
+scatter(ones(size(SBU_Oxsys_belowIOU)).*(10+(rand(size(SBU_Oxsys_belowIOU))-0.5)/10),SBU_Oxsys_belowIOU,markersize,'filled','MarkerFaceColor',[0.4940 0.1840 0.5560]);
+boxchart(10*ones(1,length(SBU_Oxsys_belowIOU)),SBU_Oxsys_belowIOU,'BoxFaceColor',[0.4940 0.1840 0.5560],'MarkerStyle','none');
+scatter(ones(size(SBU_Energy_belowIOU)).*(11+(rand(size(SBU_Energy_belowIOU))-0.5)/10),SBU_Energy_belowIOU,markersize,'filled','MarkerFaceColor',[0.9290 0.6940 0.1250]);
+boxchart(11*ones(1,length(SBU_Energy_belowIOU)),SBU_Energy_belowIOU,'BoxFaceColor',[0.9290 0.6940 0.1250],'MarkerStyle','none');
+scatter(ones(size(SBU_DiffOp_belowIOU)).*(12+(rand(size(SBU_DiffOp_belowIOU))-0.5)/10),SBU_DiffOp_belowIOU,markersize,'filled','MarkerFaceColor',[0.8500 0.3250 0.0980]);
+boxchart(12*ones(1,length(SBU_DiffOp_belowIOU)),SBU_DiffOp_belowIOU,'BoxFaceColor',[0.8500 0.3250 0.0980],'MarkerStyle','none');
+scatter(ones(size(SBU_DiffOpEng_belowIOU)).*(13+(rand(size(SBU_DiffOpEng_belowIOU))-0.5)/10),SBU_DiffOpEng_belowIOU,markersize,'filled','MarkerFaceColor',[0 0.4470 0.7410]);
+boxchart(13*ones(1,length(SBU_DiffOpEng_belowIOU)),SBU_DiffOpEng_belowIOU,'BoxFaceColor',[0 0.4470 0.7410],'MarkerStyle','none');
+
+scatter(ones(size(SBU_Thr_averageIOU)).*(15+(rand(size(SBU_Thr_averageIOU))-0.5)/10),SBU_Thr_averageIOU,markersize,'filled','MarkerFaceColor',[0.6350 0.0780 0.1840]);
+boxchart(15*ones(1,length(SBU_Thr_averageIOU)),SBU_Thr_averageIOU,'BoxFaceColor',[0.6350 0.0780 0.1840],'MarkerStyle','none');
+scatter(ones(size(SBU_Template_averageIOU)).*(16+(rand(size(SBU_Template_averageIOU))-0.5)/10),SBU_Template_averageIOU,markersize,'filled','MarkerFaceColor',[0.4660 0.6740 0.1880]);
+boxchart(16*ones(1,length(SBU_Template_averageIOU)),SBU_Template_averageIOU,'BoxFaceColor',[0.4660 0.6740 0.1880],'MarkerStyle','none');
+scatter(ones(size(SBU_Oxsys_averageIOU)).*(17+(rand(size(SBU_Oxsys_averageIOU))-0.5)/10),SBU_Oxsys_averageIOU,markersize,'filled','MarkerFaceColor',[0.4940 0.1840 0.5560]);
+boxchart(17*ones(1,length(SBU_Oxsys_averageIOU)),SBU_Oxsys_averageIOU,'BoxFaceColor',[0.4940 0.1840 0.5560],'MarkerStyle','none');
+scatter(ones(size(SBU_Energy_averageIOU)).*(18+(rand(size(SBU_Energy_averageIOU))-0.5)/10),SBU_Energy_averageIOU,markersize,'filled','MarkerFaceColor',[0.9290 0.6940 0.1250]);
+boxchart(18*ones(1,length(SBU_Energy_averageIOU)),SBU_Energy_averageIOU,'BoxFaceColor',[0.9290 0.6940 0.1250],'MarkerStyle','none');
+scatter(ones(size(SBU_DiffOp_averageIOU)).*(19+(rand(size(SBU_DiffOp_averageIOU))-0.5)/10),SBU_DiffOp_averageIOU,markersize,'filled','MarkerFaceColor',[0.8500 0.3250 0.0980]);
+boxchart(19*ones(1,length(SBU_DiffOp_averageIOU)),SBU_DiffOp_averageIOU,'BoxFaceColor',[0.8500 0.3250 0.0980],'MarkerStyle','none');
+scatter(ones(size(SBU_DiffOpEng_averageIOU)).*(20+(rand(size(SBU_DiffOpEng_averageIOU))-0.5)/10),SBU_DiffOpEng_averageIOU,markersize,'filled','MarkerFaceColor',[0 0.4470 0.7410]);
+boxchart(20*ones(1,length(SBU_DiffOpEng_averageIOU)),SBU_DiffOpEng_averageIOU,'BoxFaceColor',[0 0.4470 0.7410],'MarkerStyle','none');
+
+
+scatter(ones(size(SBU_Thr_aboveIOU)).*(22+(rand(size(SBU_Thr_aboveIOU))-0.5)/10),SBU_Thr_aboveIOU,markersize,'filled','MarkerFaceColor',[0.6350 0.0780 0.1840]);
+boxchart(22*ones(1,length(SBU_Thr_aboveIOU)),SBU_Thr_aboveIOU,'BoxFaceColor',[0.6350 0.0780 0.1840],'MarkerStyle','none');
+scatter(ones(size(SBU_Template_aboveIOU)).*(23+(rand(size(SBU_Template_aboveIOU))-0.5)/10),SBU_Template_aboveIOU,markersize,'filled','MarkerFaceColor',[0.4660 0.6740 0.1880]);
+boxchart(23*ones(1,length(SBU_Template_aboveIOU)),SBU_Template_aboveIOU,'BoxFaceColor',[0.4660 0.6740 0.1880],'MarkerStyle','none');
+scatter(ones(size(SBU_Oxsys_aboveIOU)).*(24+(rand(size(SBU_Oxsys_aboveIOU))-0.5)/10),SBU_Oxsys_aboveIOU,markersize,'filled','MarkerFaceColor',[0.4940 0.1840 0.5560]);
+boxchart(24*ones(1,length(SBU_Oxsys_aboveIOU)),SBU_Oxsys_aboveIOU,'BoxFaceColor',[0.4940 0.1840 0.5560],'MarkerStyle','none');
+scatter(ones(size(SBU_Energy_aboveIOU)).*(25+(rand(size(SBU_Energy_aboveIOU))-0.5)/10),SBU_Energy_aboveIOU,markersize,'filled','MarkerFaceColor',[0.9290 0.6940 0.1250]);
+boxchart(25*ones(1,length(SBU_Energy_aboveIOU)),SBU_Energy_aboveIOU,'BoxFaceColor',[0.9290 0.6940 0.1250],'MarkerStyle','none');
+scatter(ones(size(SBU_DiffOp_aboveIOU)).*(26+(rand(size(SBU_DiffOp_aboveIOU))-0.5)/10),SBU_DiffOp_aboveIOU,markersize,'filled','MarkerFaceColor',[0.8500 0.3250 0.0980]);
+boxchart(26*ones(1,length(SBU_DiffOp_aboveIOU)),SBU_DiffOp_aboveIOU,'BoxFaceColor',[0.8500 0.3250 0.0980],'MarkerStyle','none');
+scatter(ones(size(SBU_DiffOpEng_aboveIOU)).*(27+(rand(size(SBU_DiffOpEng_aboveIOU))-0.5)/10),SBU_DiffOpEng_aboveIOU,markersize,'filled','MarkerFaceColor',[0 0.4470 0.7410]);
+boxchart(27*ones(1,length(SBU_DiffOpEng_aboveIOU)),SBU_DiffOpEng_aboveIOU,'BoxFaceColor',[0 0.4470 0.7410],'MarkerStyle','none');
+
+scatter(ones(size(SBU_Thr_goodIOU)).*(29+(rand(size(SBU_Thr_goodIOU))-0.5)/10),SBU_Thr_goodIOU,markersize,'filled','MarkerFaceColor',[0.6350 0.0780 0.1840]);
+boxchart(29*ones(1,length(SBU_Thr_goodIOU)),SBU_Thr_goodIOU,'BoxFaceColor',[0.6350 0.0780 0.1840],'MarkerStyle','none');
+scatter(ones(size(SBU_Template_goodIOU)).*(30+(rand(size(SBU_Template_goodIOU))-0.5)/10),SBU_Template_goodIOU,markersize,'filled','MarkerFaceColor',[0.4660 0.6740 0.1880]);
+boxchart(30*ones(1,length(SBU_Template_goodIOU)),SBU_Template_goodIOU,'BoxFaceColor',[0.4660 0.6740 0.1880],'MarkerStyle','none');
+scatter(ones(size(SBU_Oxsys_goodIOU)).*(31+(rand(size(SBU_Oxsys_goodIOU))-0.5)/10),SBU_Oxsys_goodIOU,markersize,'filled','MarkerFaceColor',[0.4940 0.1840 0.5560]);
+boxchart(31*ones(1,length(SBU_Oxsys_goodIOU)),SBU_Oxsys_goodIOU,'BoxFaceColor',[0.4940 0.1840 0.5560],'MarkerStyle','none');
+scatter(ones(size(SBU_Energy_goodIOU)).*(32+(rand(size(SBU_Energy_goodIOU))-0.5)/10),SBU_Energy_goodIOU,markersize,'filled','MarkerFaceColor',[0.9290 0.6940 0.1250]);
+boxchart(32*ones(1,length(SBU_Energy_goodIOU)),SBU_Energy_goodIOU,'BoxFaceColor',[0.9290 0.6940 0.1250],'MarkerStyle','none');
+scatter(ones(size(SBU_DiffOp_goodIOU)).*(33+(rand(size(SBU_DiffOp_goodIOU))-0.5)/10),SBU_DiffOp_goodIOU,markersize,'filled','MarkerFaceColor',[0.8500 0.3250 0.0980]);
+boxchart(33*ones(1,length(SBU_DiffOp_goodIOU)),SBU_DiffOp_goodIOU,'BoxFaceColor',[0.8500 0.3250 0.0980],'MarkerStyle','none');
+scatter(ones(size(SBU_DiffOpEng_goodIOU)).*(34+(rand(size(SBU_DiffOpEng_goodIOU))-0.5)/10),SBU_DiffOpEng_goodIOU,markersize,'filled','MarkerFaceColor',[0 0.4470 0.7410]);
+boxchart(34*ones(1,length(SBU_DiffOpEng_goodIOU)),SBU_DiffOpEng_goodIOU,'BoxFaceColor',[0 0.4470 0.7410],'MarkerStyle','none');
+
