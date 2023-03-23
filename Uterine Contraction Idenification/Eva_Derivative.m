@@ -170,7 +170,7 @@ for i = 1:15
         % ================ Start UC detection when every new local minima found
         if ~isempty(locs) && (pointer<locs(end)) && (n ~= numel(t))
             while floor(length(pointer+1:locs(end))/LL)>=1
-                [~,candidates] = contraction_detector_Oxsys(Detua(pointer+1:pointer+LL),[LL,alpha,alphas,min_con,min_gap],pointer);
+                [~,candidates] = contraction_detector_Derivative(Detua(pointer+1:pointer+LL),[LL,alpha,alphas,min_con,min_gap],pointer);
 
                 if ~isnan(candidates)
                     if ~isempty(ContractionsSaving)&& ~isempty(intersect(candidates(1,1):candidates(1,2),ContractionsSaving(end,1):ContractionsSaving(end,2)))
@@ -187,7 +187,7 @@ for i = 1:15
         elseif n == numel(t)
             %while floor(length(pointer+1:receivedLen)/LL)>=1
             LL = length(Detua(pointer+1:end));
-                [~,candidates] = contraction_detector_Oxsys(Detua(pointer+1:pointer+LL),[LL,alpha,alphas,min_con,min_gap],pointer);
+                [~,candidates] = contraction_detector_Derivative(Detua(pointer+1:pointer+LL),[LL,alpha,alphas,min_con,min_gap],pointer);
                 
                 if ~isnan(candidates)
                     ContractionsSaving = [ContractionsSaving;candidates];
@@ -378,7 +378,7 @@ for i = 1:15
         % ================ Start UC detection when every new local minima found
         if ~isempty(locs) && (pointer<locs(end)) && (n ~= numel(t))
             while floor(length(pointer+1:locs(end))/LL)>=1
-                [~,candidates] = contraction_detector_Oxsys(Detua(pointer+1:pointer+LL),[LL,alpha,alphas,min_con,min_gap],pointer);
+                [~,candidates] = contraction_detector_Derivative(Detua(pointer+1:pointer+LL),[LL,alpha,alphas,min_con,min_gap],pointer);
 
                 if ~isnan(candidates)
                     if ~isempty(ContractionsSaving)&& ~isempty(intersect(candidates(1,1):candidates(1,2),ContractionsSaving(end,1):ContractionsSaving(end,2)))
@@ -395,7 +395,7 @@ for i = 1:15
         elseif n == numel(t)
 %             while floor(length(pointer+1:receivedLen)/LL)>=1
             LL = length(Detua(pointer+1:end));
-                [~,candidates] = contraction_detector_Oxsys(Detua(pointer+1:pointer+LL),[LL,alpha,alphas,min_con,min_gap],pointer);
+                [~,candidates] = contraction_detector_Derivative(Detua(pointer+1:pointer+LL),[LL,alpha,alphas,min_con,min_gap],pointer);
                 
                 if ~isnan(candidates)
                     ContractionsSaving = [ContractionsSaving;candidates];
