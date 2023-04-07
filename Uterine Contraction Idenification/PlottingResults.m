@@ -448,3 +448,899 @@ boxchart(33*ones(1,length(SBU_DiffOp_goodIOU)),SBU_DiffOp_goodIOU,'BoxFaceColor'
 scatter(ones(size(SBU_DiffOpEng_goodIOU)).*(34+(rand(size(SBU_DiffOpEng_goodIOU))-0.5)/10),SBU_DiffOpEng_goodIOU,markersize,'filled','MarkerFaceColor',[0 0.4470 0.7410]);
 boxchart(34*ones(1,length(SBU_DiffOpEng_goodIOU)),SBU_DiffOpEng_goodIOU,'BoxFaceColor',[0 0.4470 0.7410],'MarkerStyle','none');
 
+
+
+%% Plotting performance (set IOUs threshold)
+
+IOUth = 0.6;
+Row = 4;
+Col = 5;
+
+figure()
+for k = 1:Row*Col
+    if floor(k/Col)==0
+        if mod(k,Col)==1
+            % Ground Truth 1 & Poor
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'p');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'p');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'p');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'p');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'p');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'p');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'p');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'p');
+
+            subplot(Row,Col,k); hold on
+            ylabel({'Ground Truth 1','','PPV / Precision'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);
+            legend('Threshold','Template Matching','Derivative','GLRT','Basic','Basic+AG','Basic+AG+GP','All');
+
+        elseif mod(k,Col)==2
+            % Ground Truth 1 & Below Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'b');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'b');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'b');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'b');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'b');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'b');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'b');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'b');            
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);
+            %legend('Threshold','Template Matching','Derivative','GLRT','Basic','Basic+AG','Basic+AG+GP','All');
+
+        elseif mod(k,Col)==3
+            % Ground Truth 1 & Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'m');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'m');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'m');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'m');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'m');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'m');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'m');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'m');            
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);
+
+        elseif mod(k,Col)==4
+            % Ground Truth 1 & Above
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'a');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'a');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'a');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'a');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'a');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'a');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'a');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'a');            
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);
+
+        else
+            % Ground Truth 1 & good
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'g');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'g');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'g');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'g');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'g');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'g');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'g');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'g');            
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);
+        end
+ 
+    elseif floor(k/Col)==1
+        if mod(k,Col)==1
+            % Ground Truth 2 & Poor
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'p');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'p');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'p');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'p');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'p');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'p');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'p');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'p');
+
+            subplot(Row,Col,k); hold on
+            ylabel({'Ground Truth 2','','PPV / Precision'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);            
+    
+        elseif mod(k,Col)==2
+            % Ground Truth 2 & Below Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'b');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'b');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'b');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'b');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'b');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'b');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'b');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'b');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);    
+
+        elseif mod(k,Col)==3
+            % Ground Truth 2 & Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'m');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'m');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'m');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'m');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'m');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'m');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'m');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'m');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);               
+
+        elseif mod(k,Col)==4
+            % Ground Truth 2 & Above
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'a');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'a');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'a');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'a');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'a');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'a');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'a');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'a');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]); 
+
+        else
+            % Ground Truth 2 & Good
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'g');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'g');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'g');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'g');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'g');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'g');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'g');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'g');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);             
+        end        
+          
+    elseif floor(k/Col)==2
+        if mod(k,Col)==1
+            % Ground Truth 3 & Poor
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'p');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'p');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'p');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'p');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'p');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'p');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'p');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'p');
+
+            subplot(Row,Col,k); hold on
+            ylabel({'Ground Truth 3','','PPV / Precision'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
+
+        elseif mod(k,Col)==2
+            % Ground Truth 3 & Below Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'b');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'b');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'b');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'b');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'b');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'b');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'b');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'b');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
+
+        elseif mod(k,Col)==3
+            % Ground Truth 3 & Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'m');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'m');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'m');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'m');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'m');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'m');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'m');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'m');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);              
+
+        elseif mod(k,Col)==4
+            % Ground Truth 3 & Above
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'a');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'a');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'a');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'a');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'a');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'a');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'a');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'a');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);     
+
+        else
+            % Ground Truth 3 & Good
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'g');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'g');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'g');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'g');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'g');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'g');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'g');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'g');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);     
+        end         
+       
+    else
+        if mod(k,Col)==1
+            % Ground Truth 4 & Poor
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'p');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'p');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'p');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'p');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'p');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'p');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'p');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'p');
+
+            subplot(Row,Col,k); hold on
+            ylabel({'Ground Truth 4','','PPV / Precision'});
+            xlabel({'TPR / Sensitivity / Recall','Poor'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
+
+        elseif mod(k,Col)==2
+            % Ground Truth 4 & Below Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'b');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'b');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'b');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'b');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'b');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'b');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'b');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'b');
+
+            subplot(Row,Col,k); hold on
+            xlabel({'TPR / Sensitivity / Recall','Below Average'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
+            
+        elseif mod(k,Col)==3
+            % Ground Truth 4 & Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'m');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'m');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'m');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'m');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'m');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'m');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'m');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'m');
+
+            subplot(Row,Col,k); hold on
+            xlabel({'TPR / Sensitivity / Recall','Average'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
+
+        elseif mod(k,Col)==4
+            % Ground Truth 4 & Above Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'a');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'a');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'a');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'a');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'a');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'a');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'a');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'a');
+
+            subplot(Row,Col,k); hold on
+            xlabel({'TPR / Sensitivity / Recall','Above Average'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
+
+        else
+            % Ground Truth 4 & Good
+            [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'g');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'g');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'g');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(Czech_Basic,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'g');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(Czech_GLRT,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'g');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(Czech_BasicAG,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'g');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(Czech_BasicAGGP,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'g');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'g');
+
+            subplot(Row,Col,k); hold on
+            xlabel({'TPR / Sensitivity / Recall','Good'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
+        end          
+    end
+
+end
+
+
+figure()
+for k = 1:Row*Col
+    if floor(k/Col)==0
+        if mod(k,Col)==1
+            % Ground Truth 1 & Poor
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'p');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'p');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'p');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'p');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'p');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'p');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'p');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'p');
+
+            subplot(Row,Col,k); hold on
+            ylabel({'Ground Truth 1','','PPV / Precision'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);
+            legend('Threshold','Template Matching','Derivative','GLRT','Basic','Basic+AG','Basic+AG+GP','All');
+
+        elseif mod(k,Col)==2
+            % Ground Truth 1 & Below Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'b');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'b');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'b');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'b');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'b');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'b');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'b');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'b');            
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);
+            %legend('Threshold','Template Matching','Derivative','GLRT','Basic','Basic+AG','Basic+AG+GP','All');
+
+        elseif mod(k,Col)==3
+            % Ground Truth 1 & Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'m');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'m');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'m');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'m');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'m');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'m');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'m');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'m');            
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);
+
+        elseif mod(k,Col)==4
+            % Ground Truth 1 & Above
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'a');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'a');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'a');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'a');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'a');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'a');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'a');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'a');            
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);
+
+        else
+            % Ground Truth 1 & good
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'g');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'g');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'g');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'g');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'g');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'g');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'g');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'g');            
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);
+        end
+ 
+    elseif floor(k/Col)==1
+        if mod(k,Col)==1
+            % Ground Truth 2 & Poor
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'p');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'p');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'p');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'p');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'p');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'p');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'p');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'p');
+
+            subplot(Row,Col,k); hold on
+            ylabel({'Ground Truth 2','','PPV / Precision'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);            
+    
+        elseif mod(k,Col)==2
+            % Ground Truth 2 & Below Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'b');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'b');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'b');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'b');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'b');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'b');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'b');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'b');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);    
+
+        elseif mod(k,Col)==3
+            % Ground Truth 2 & Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'m');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'m');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'m');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'m');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'m');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'m');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'m');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'m');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);               
+
+        elseif mod(k,Col)==4
+            % Ground Truth 2 & Above
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'a');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'a');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'a');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'a');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'a');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'a');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'a');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'a');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]); 
+
+        else
+            % Ground Truth 2 & Good
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'g');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'g');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'g');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'g');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'g');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'g');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'g');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'g');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);             
+        end        
+          
+    elseif floor(k/Col)==2
+        if mod(k,Col)==1
+            % Ground Truth 3 & Poor
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'p');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'p');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'p');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'p');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'p');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'p');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'p');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'p');
+
+            subplot(Row,Col,k); hold on
+            ylabel({'Ground Truth 3','','PPV / Precision'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
+
+        elseif mod(k,Col)==2
+            % Ground Truth 3 & Below Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'b');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'b');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'b');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'b');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'b');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'b');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'b');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'b');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
+
+        elseif mod(k,Col)==3
+            % Ground Truth 3 & Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'m');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'m');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'m');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'m');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'m');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'m');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'m');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'m');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);              
+
+        elseif mod(k,Col)==4
+            % Ground Truth 3 & Above
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'a');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'a');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'a');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'a');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'a');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'a');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'a');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'a');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);     
+
+        else
+            % Ground Truth 3 & Good
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'g');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'g');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'g');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'g');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'g');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'g');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'g');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'g');
+
+            subplot(Row,Col,k); hold on
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);     
+        end         
+       
+    else
+        if mod(k,Col)==1
+            % Ground Truth 4 & Poor
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'p');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'p');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'p');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'p');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'p');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'p');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'p');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'p');
+
+            subplot(Row,Col,k); hold on
+            ylabel({'Ground Truth 4','','PPV / Precision'});
+            xlabel({'TPR / Sensitivity / Recall','Poor'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
+
+        elseif mod(k,Col)==2
+            % Ground Truth 4 & Below Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'b');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'b');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'b');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'b');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'b');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'b');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'b');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'b');
+
+            subplot(Row,Col,k); hold on
+            xlabel({'TPR / Sensitivity / Recall','Below Average'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
+            
+        elseif mod(k,Col)==3
+            % Ground Truth 4 & Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'m');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'m');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'m');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'m');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'m');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'m');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'m');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'m');
+
+            subplot(Row,Col,k); hold on
+            xlabel({'TPR / Sensitivity / Recall','Average'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
+
+        elseif mod(k,Col)==4
+            % Ground Truth 4 & Above Avg
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'a');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'a');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'a');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'a');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'a');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'a');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'a');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'a');
+
+            subplot(Row,Col,k); hold on
+            xlabel({'TPR / Sensitivity / Recall','Above Average'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
+
+        else
+            % Ground Truth 4 & Good
+            [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'g');
+            [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'g');
+            [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'g');
+            [PPV_Basic,TPR_Basic,AUC_Basic] = PR_plot(SBU_Basic,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'g');
+            [PPV_GLRT,TPR_GLRT,AUC_GLRT] = PR_plot(SBU_GLRT,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'g');
+            [PPV_BasicAG,TPR_BasicAG,AUC_BasicAG] = PR_plot(SBU_BasicAG,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'g');
+            [PPV_BasicAGGP,TPR_BasicAGGP,AUC_BasicAGGP] = PR_plot(SBU_BasicAGGP,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'g');
+            [PPV_All,TPR_All,AUC_All] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'g');
+
+            subplot(Row,Col,k); hold on
+            xlabel({'TPR / Sensitivity / Recall','Good'});
+            plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',[0.6350 0.0780 0.1840]);
+            plot(TPR_GLRT,PPV_GLRT,'-','LineWidth',1.5,'Color',[0.4660 0.6740 0.1880]);
+            plot(TPR_Basic,PPV_Basic,'-','LineWidth',1.5,'Color',[0.4940 0.1840 0.5560]);
+            plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
+            plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
+            plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
+        end          
+    end
+
+end
