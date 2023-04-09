@@ -1344,3 +1344,109 @@ for k = 1:Row*Col
     end
 
 end
+
+
+%% Influence of IOU threshold
+
+IOUoptions = [0.1:0.1:0.9];
+Color_Thr = [0.99 0.7 0.76    % Red
+    0.99 0.62 0.69
+    0.99 0.55 0.64
+    0.98 0.48 0.57
+    0.93 0.41 0.51
+    0.92 0.35 0.45
+    0.82 0.25 0.36
+    0.76 0.17 0.27
+    0.64 0.08 0.18];
+
+Color_Temp = [0.77 0.99 0.49    % Green
+    0.69 0.91 0.4
+    0.64 0.87 0.33
+    0.59 0.84 0.27
+    0.53 0.78 0.2
+    0.45 0.69 0.13
+    0.38 0.6 0.08
+    0.32 0.53 0.04
+    0.24 0.41 0.01];
+
+Color_Oxsys = [0.91 0.53 0.99   % Purple
+    0.89 0.45 0.98
+    0.84 0.36 0.94
+    0.77 0.29 0.87
+    0.72 0.23 0.82
+    0.66 0.18 0.76
+    0.59 0.13 0.68
+    0.5 0.09 0.58
+    0.4 0.05 0.47];
+
+Color_All = [0.44 0.77 0.99    % Blue
+    0.39 0.76 0.99
+    0.32 0.72 0.98
+    0.27 0.68 0.96
+    0.2 0.63 0.92
+    0.15 0.6 0.89
+    0.1 0.55 0.84
+    0.05 0.5 0.8
+    0 0.45 0.74];
+
+
+figure()
+for i = 1:5
+    switch i
+        case 1
+            class = 'p';
+        case 2
+            class = 'b';
+        case 3
+            class = 'm';
+        case 4
+            class = 'a';
+        case 5
+            class = 'g';
+    end
+    subplot(1,5,i); hold on;
+    for j = 1:length(IOUoptions)
+        [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUoptions(j),GroundTruth_Czech_G4,class);
+        [PPV_Temp,TPR_Temp,~] = PR_plot(Czech_Template,CzechID,Czechlabel,CzechUA,IOUoptions(j),GroundTruth_Czech_G4,class);
+        [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(Czech_Oxsys,CzechID,Czechlabel,CzechUA,IOUoptions(j),GroundTruth_Czech_G4,class);
+        [PPV_All,TPR_All,~] = PR_plot(Czech_All,CzechID,Czechlabel,CzechUA,IOUoptions(j),GroundTruth_Czech_G4,class);
+
+        %xlabel({'TPR / Sensitivity / Recall','Poor'});
+        %ylabel('PPV / Precision');
+        plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',Color_Thr(j,:));
+        plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',Color_Temp(j,:));
+        plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',Color_Oxsys(j,:)); 
+        plot(TPR_All,PPV_All,'-','LineWidth',2,'Color',Color_All(j,:));       
+    end
+end
+
+
+figure()
+for i = 1:5
+    switch i
+        case 1
+            class = 'p';
+        case 2
+            class = 'b';
+        case 3
+            class = 'm';
+        case 4
+            class = 'a';
+        case 5
+            class = 'g';
+    end
+    subplot(1,5,i); hold on;
+    for j = 1:length(IOUoptions)
+        [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUoptions(j),GroundTruth_SBU_G4,class);
+        [PPV_Temp,TPR_Temp,~] = PR_plot(SBU_Template,SBUID,SBUlabel,SBUUA,IOUoptions(j),GroundTruth_SBU_G4,class);
+        [PPV_Oxsys,TPR_Oxsys,~] = PR_plot(SBU_Oxsys,SBUID,SBUlabel,SBUUA,IOUoptions(j),GroundTruth_SBU_G4,class);
+        [PPV_All,TPR_All,~] = PR_plot(SBU_All,SBUID,SBUlabel,SBUUA,IOUoptions(j),GroundTruth_SBU_G4,class);
+
+        %xlabel({'TPR / Sensitivity / Recall','Poor'});
+        %ylabel('PPV / Precision');
+        plot(TPR_Thr,PPV_Thr,'o','LineWidth',2,'Color',Color_Thr(j,:));
+        plot(TPR_Temp,PPV_Temp,'+','LineWidth',2,'Color',Color_Temp(j,:));
+        plot(TPR_Oxsys,PPV_Oxsys,'*','LineWidth',2,'Color',Color_Oxsys(j,:)); 
+        plot(TPR_All,PPV_All,'-','LineWidth',2,'Color',Color_All(j,:));       
+    end
+end
