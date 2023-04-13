@@ -458,7 +458,7 @@ Col = 5;
 
 figure()
 for k = 1:Row*Col
-    if floor(k/Col)==0
+    if floor((k-1)/Col)==0
         if mod(k,Col)==1
             % Ground Truth 1 & Poor
             [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G1,'p');
@@ -567,8 +567,8 @@ for k = 1:Row*Col
             plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
             plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);
         end
- 
-    elseif floor(k/Col)==1
+
+    elseif floor((k-1)/Col)==1
         if mod(k,Col)==1
             % Ground Truth 2 & Poor
             [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'p');
@@ -590,7 +590,7 @@ for k = 1:Row*Col
             plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
             plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
             plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);            
-    
+
         elseif mod(k,Col)==2
             % Ground Truth 2 & Below Avg
             [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G2,'b');
@@ -675,8 +675,8 @@ for k = 1:Row*Col
             plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
             plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);             
         end        
-          
-    elseif floor(k/Col)==2
+
+    elseif floor((k-1)/Col)==2
         if mod(k,Col)==1
             % Ground Truth 3 & Poor
             [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G3,'p');
@@ -783,7 +783,7 @@ for k = 1:Row*Col
             plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
             plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);     
         end         
-       
+
     else
         if mod(k,Col)==1
             % Ground Truth 4 & Poor
@@ -829,7 +829,7 @@ for k = 1:Row*Col
             plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
             plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
             plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
-            
+
         elseif mod(k,Col)==3
             % Ground Truth 4 & Avg
             [PPV_Thr,TPR_Thr,~] = PR_plot(Czech_Thr,CzechID,Czechlabel,CzechUA,IOUth,GroundTruth_Czech_G4,'m');
@@ -903,7 +903,7 @@ end
 
 figure()
 for k = 1:Row*Col
-    if floor(k/Col)==0
+    if floor((k-1)/Col)==0
         if mod(k,Col)==1
             % Ground Truth 1 & Poor
             [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G1,'p');
@@ -1012,8 +1012,8 @@ for k = 1:Row*Col
             plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
             plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);
         end
- 
-    elseif floor(k/Col)==1
+
+    elseif floor((k-1)/Col)==1
         if mod(k,Col)==1
             % Ground Truth 2 & Poor
             [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'p');
@@ -1035,7 +1035,7 @@ for k = 1:Row*Col
             plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
             plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
             plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);            
-    
+
         elseif mod(k,Col)==2
             % Ground Truth 2 & Below Avg
             [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G2,'b');
@@ -1120,8 +1120,8 @@ for k = 1:Row*Col
             plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
             plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);             
         end        
-          
-    elseif floor(k/Col)==2
+
+    elseif floor((k-1)/Col)==2
         if mod(k,Col)==1
             % Ground Truth 3 & Poor
             [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G3,'p');
@@ -1228,7 +1228,7 @@ for k = 1:Row*Col
             plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
             plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);     
         end         
-       
+
     else
         if mod(k,Col)==1
             % Ground Truth 4 & Poor
@@ -1274,7 +1274,7 @@ for k = 1:Row*Col
             plot(TPR_BasicAG,PPV_BasicAG,'-','LineWidth',1.5,'Color',[0.9290 0.6940 0.1250]);
             plot(TPR_BasicAGGP,PPV_BasicAGGP,'-','LineWidth',1.5,'Color',[0.8500 0.3250 0.0980]);
             plot(TPR_All,PPV_All,'-','LineWidth',1.5,'Color',[0 0.4470 0.7410]);  
-            
+
         elseif mod(k,Col)==3
             % Ground Truth 4 & Avg
             [PPV_Thr,TPR_Thr,~] = PR_plot(SBU_Thr,SBUID,SBUlabel,SBUUA,IOUth,GroundTruth_SBU_G4,'m');
