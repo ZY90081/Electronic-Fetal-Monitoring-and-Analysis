@@ -9,7 +9,8 @@ Reference: <br>
 
 *Functions:* <br>
 
-**Fun_UApreprocessing.m**  - preprocessing raw uterine activity signals <br>
-**Fun_UApostprocessing.m** - postprocessing after onset/offset detection <br>
+**Fun_UApreprocessing.m**  - preprocess raw uterine activity signals <br>
+**Fun_UApostprocessing.m** - postprocess after onset/offset detection <br>
 **AsymmetricGamma.m** - generalized asymmetric Laplace distribution <br>
 **Fun_fitAsymmetricGamma.m** - fit generalized asymmetric Laplace distribution model <br>
+**IOUsEdge.m** - compute Intersection over Union
