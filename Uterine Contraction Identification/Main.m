@@ -242,12 +242,7 @@ for i = 1:kfold
 
 
                 % Contraction Identification -----------------------
-                % method 1 GLRT                
-%                 [flag,prob,theta_est] = contraction_detector_GLRT(Detua,candidates,NoiseModelParas,AGaussian,GLRTClassifier);
-                % method 2 GPHT
-%                 [flag,prob] = contraction_detector_GPHT(Detua,candidates,PDFofHyperparameters,GPHTThr);
-                % method 3 AGF
-%                 [flag,prob,theta_est] = contraction_detector_AGFeatures(Detua,candidates,NoiseModelParas,AGaussian,AGFClassifier);
+
                 [flag,prob] = contraction_detector_classification(Detua,candidates,NoiseModelParas,AGaussian,Classifier,Method);
 
             
@@ -273,15 +268,9 @@ for i = 1:kfold
 
                 
                 % Contraction Identification -----------------------
-                % method 1 GLRT                
-%                 [flag,prob,~] = contraction_detector_GLRT(Detua,candidates,NoiseModelParas,AGaussian,GLRTClassifier);
-                % method 2 GPHT
-%                 [flag,prob] = contraction_detector_GPHT(Detua,candidates,PDFofHyperparameters,GPHTThr);
-                % method 3 AGF
-%                 [flag,prob,~] = contraction_detector_AGFeatures(Detua,candidates,NoiseModelParas,AGaussian,AGFClassifier);
                 [flag,prob] = contraction_detector_classification(Detua,candidates,NoiseModelParas,AGaussian,Classifier,Method);
                      
-                % method 4 Template matching:
+                % method: Template matching:
                 % candidates = contraction_detector_Template(Detua,TemplateParas,template_delta,template_rho,minConInt,minConLen,pointer);
 
                 if ~isnan(candidates)
@@ -530,12 +519,6 @@ for i = 1:kfold
                 candidates = Fun_UApostprocessing(candidates,[minConInt,minConLen]); % Post-processing                
 
                 % Contraction Identification -----------------------
-                % method 1 GLRT                
-%                 [flag,prob,theta_est] = contraction_detector_GLRT(Detua,candidates,NoiseModelParas,AGaussian,GLRTClassifier);
-                % method 2 GPHT
-%                 [flag,prob] = contraction_detector_GPHT(Detua,candidates,PDFofHyperparameters,GPHTThr);
-                % method 3 AGF
-%                 [flag,prob,theta_est] = contraction_detector_AGFeatures(Detua,candidates,NoiseModelParas,AGaussian,AGFClassifier);
 
                 [flag,prob] = contraction_detector_classification(Detua,candidates,NoiseModelParas,AGaussian,Classifier,Method);
 
@@ -561,16 +544,10 @@ for i = 1:kfold
                 candidates = Fun_UApostprocessing(candidates,[minConInt,minConLen]); % Post-processing
                 
                 % Contraction Identification -----------------------
-                % method 1 GLRT                
-%                 [flag,prob,~] = contraction_detector_GLRT(Detua,candidates,NoiseModelParas,AGaussian,GLRTClassifier);
-                % method 2 GPHT
-%                 [flag,prob] = contraction_detector_GPHT(Detua,candidates,PDFofHyperparameters,GPHTThr);
-                % method 3 AGF
-%                 [flag,prob,~] = contraction_detector_AGFeatures(Detua,candidates,NoiseModelParas,AGaussian,AGFClassifier);
                   
                 [flag,prob] = contraction_detector_classification(Detua,candidates,NoiseModelParas,AGaussian,Classifier,Method);
 
-                % method 4 Template matching:
+                % method : Template matching:
                 %candidates = contraction_detector_Template(Detua,TemplateParas,template_delta,template_rho,minConInt,minConLen,pointer);                
 
                 if ~isnan(candidates)
