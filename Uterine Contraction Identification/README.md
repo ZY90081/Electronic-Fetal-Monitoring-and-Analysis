@@ -12,6 +12,7 @@ Reference: <br>
 *Functions:* <br>
 
 **contraction_detector_Derivative.m** - derivative-based method <br>
+**contraction_detector_Diffoperator.m** - difference operator <br>
 
 **Fun_UApreprocessing.m**  - preprocess raw uterine activity signals <br>
 **Fun_UApostprocessing.m** - postprocess after onset/offset detection <br>
