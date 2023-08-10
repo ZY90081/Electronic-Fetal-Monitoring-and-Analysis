@@ -10,7 +10,7 @@ Reference: <br>
 **UA_quality.m** - compute qualities of uterine activity signals <br>
 
 *Functions:* <br>
-
+**contraction_detector_Threshold.m** - threshold-based method <br>
 **contraction_detector_Derivative.m** - derivative-based method <br>
 **contraction_detector_Template.m** - template matching method <br>
 **contraction_detector_Energy.m** - energy detector  <br>
