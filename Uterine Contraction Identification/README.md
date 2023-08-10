@@ -22,6 +22,7 @@ Reference: <br>
 **Fun_UApostprocessing.m** - postprocess after onset/offset detection <br>
 **AsymmetricGamma.m** - generalized asymmetric Laplace distribution <br>
 **Fun_fitAsymmetricGamma.m** - fit generalized asymmetric Laplace distribution model <br>
+**onsetoffsetPair.m** - algorithm for pairing onsets and offsets from difference operator result  <br>
 **IOUsEdge.m** - compute Intersection over Union <br>
 **PR_plot.m** - compute precision and recall <br>
 **PlottingResults.m** - plot figures according all results  <br>
