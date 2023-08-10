@@ -3,10 +3,10 @@ Reference:
 
 
 
-Main.m              -  Main code of uterine contraction identification
+Main.m              -  Main code of 2-step uterine contraction identification
 
 Eva_Derivative.m   - Main code of derivative-based method
-
+Eva_Threshold.m    - Main code of threshold-based method
 
 
 
