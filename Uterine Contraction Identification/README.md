@@ -7,6 +7,8 @@ Reference: <br>
 **Eva_Derivative.m**   - Main code of derivative-based method <br>
 **Eva_Threshold.m**    - Main code of threshold-based method <br>
 
+**UA_quality.m** - compute qualities of uterine activity signals <br>
+
 *Functions:* <br>
 
 **Fun_UApreprocessing.m**  - preprocess raw uterine activity signals <br>
