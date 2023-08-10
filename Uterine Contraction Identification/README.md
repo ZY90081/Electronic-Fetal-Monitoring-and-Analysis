@@ -13,6 +13,7 @@ Reference: <br>
 
 **contraction_detector_Derivative.m** - derivative-based method <br>
 **contraction_detector_Diffoperator.m** - difference operator <br>
+**contraction_detector_Diffoperator_Energy.m** - difference operator and energy detector <br>
 
 **Fun_UApreprocessing.m**  - preprocess raw uterine activity signals <br>
 **Fun_UApostprocessing.m** - postprocess after onset/offset detection <br>
