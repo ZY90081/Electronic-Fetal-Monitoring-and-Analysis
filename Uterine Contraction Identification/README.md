@@ -11,6 +11,8 @@ Reference: <br>
 
 *Functions:* <br>
 
+**contraction_detector_Derivative.m** - derivative-based method <br>
+
 **Fun_UApreprocessing.m**  - preprocess raw uterine activity signals <br>
 **Fun_UApostprocessing.m** - postprocess after onset/offset detection <br>
 **AsymmetricGamma.m** - generalized asymmetric Laplace distribution <br>
