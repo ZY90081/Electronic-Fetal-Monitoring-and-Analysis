@@ -17,7 +17,7 @@ Reference: <br>
 **contraction_detector_Diffoperator.m** - difference operator <br>
 **contraction_detector_Diffoperator_Energy.m** - difference operator and energy detector <br>
 **contraction_detector_classification.m** - test if candidate is a real contraction  <br>
-
+**Fun_extractfeatures.m** - extract basic features and features from asymmetric Gaussian model  <br>
 **training_com_features.m** - 
 
 **Fun_UApreprocessing.m**  - preprocess raw uterine activity signals <br>
