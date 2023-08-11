@@ -29,3 +29,7 @@ Reference: <br>
 **IOUsEdge.m** - compute Intersection over Union <br>
 **PR_plot.m** - compute precision and recall <br>
 **PlottingResults.m** - plot figures according all results  <br>
+
+![Example](https://github.com/ZY90081/Electronic-Fetal-Monitoring-and-Assessment/assets/33673966/f26b81c7-bfba-4b0d-9719-8bce11c7fbe5)
+
+
