@@ -19,7 +19,7 @@ Reference: <br>
 **contraction_detector_classification.m** - test if candidate is a real contraction  <br>
 **Fun_extractfeatures.m** - extract basic features and features from asymmetric Gaussian model  <br>
 **training_com_features.m** - train classifier <br>
-
+**training_for_TemplateMatching.m** - training process in template matching method  <br>
 **Fun_UApreprocessing.m**  - preprocess raw uterine activity signals <br>
 **Fun_UApostprocessing.m** - postprocess after onset/offset detection <br>
 **AsymmetricGamma.m** - generalized asymmetric Laplace distribution <br>
